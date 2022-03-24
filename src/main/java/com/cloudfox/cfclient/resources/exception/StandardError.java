@@ -4,14 +4,15 @@ import java.time.Instant;
 import java.util.Objects;
 
 public class StandardError {
-	
-	private Instant timestamp;
-	private Integer status;
+
 	private String error;
 	private String message;
 	private String path;
-	
-	public StandardError() {}
+	private Integer status;
+	private Instant timestamp;
+
+	public StandardError() {
+	}
 
 	public StandardError(Instant timestamp, Integer status, String error, String message, String path) {
 		super();
@@ -22,44 +23,36 @@ public class StandardError {
 		this.path = path;
 	}
 
-	public Instant getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Instant timestamp) {
-		this.timestamp = timestamp;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		StandardError other = (StandardError) obj;
+		return Objects.equals(error, other.error) && Objects.equals(message, other.message)
+				&& Objects.equals(path, other.path) && Objects.equals(status, other.status)
+				&& Objects.equals(timestamp, other.timestamp);
 	}
 
 	public String getError() {
 		return error;
 	}
 
-	public void setError(String error) {
-		this.error = error;
-	}
-	
 	public String getMessage() {
 		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
 	}
 
 	public String getPath() {
 		return path;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public Integer getStatus() {
+		return status;
+	}
+
+	public Instant getTimestamp() {
+		return timestamp;
 	}
 
 	@Override
@@ -67,19 +60,24 @@ public class StandardError {
 		return Objects.hash(error, message, path, status, timestamp);
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StandardError other = (StandardError) obj;
-		return Objects.equals(error, other.error) && Objects.equals(message, other.message)
-				&& Objects.equals(path, other.path) && Objects.equals(status, other.status)
-				&& Objects.equals(timestamp, other.timestamp);
+	public void setError(String error) {
+		this.error = error;
 	}
-	
-	
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public void setTimestamp(Instant timestamp) {
+		this.timestamp = timestamp;
+	}
+
 }

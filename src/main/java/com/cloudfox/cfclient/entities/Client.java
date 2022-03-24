@@ -18,27 +18,27 @@ import javax.persistence.Table;
 public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant birthDate;
+	private Integer children;
+	private String cpf;
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant createdAt;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
-	private String cpf;
+
 	private Double income;
-	private Integer children;
 
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant birthDate;
-
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant createdAt;
+	private String name;
 
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant updatedAt;
 
-	public Client() {}
-	
+	public Client() {
+	}
+
 	public Client(Long id, String name, String cpf, Double income, Integer children, Instant birthDate) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
@@ -47,63 +47,51 @@ public class Client implements Serializable {
 		this.birthDate = birthDate;
 	}
 
-
-
-	public Instant getCreatedAt() {
-		return createdAt;
-	}
-
-	public Instant getUpdatedAt() {
-		return updatedAt;
-	}
-
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public Double getIncome() {
-		return income;
-	}
-
-	public void setIncome(Double income) {
-		this.income = income;
-	}
-
-	public Integer getChildren() {
-		return children;
-	}
-
-	public void setChildren(Integer children) {
-		this.children = children;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		Client other = (Client) obj;
+		return Objects.equals(id, other.id);
 	}
 
 	public Instant getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Instant birthDate) {
-		this.birthDate = birthDate;
+	public Integer getChildren() {
+		return children;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public Instant getCreatedAt() {
+		return createdAt;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public Double getIncome() {
+		return income;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Instant getUpdatedAt() {
+		return updatedAt;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 
 	@PrePersist
@@ -116,22 +104,28 @@ public class Client implements Serializable {
 		updatedAt = Instant.now();
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public void setBirthDate(Instant birthDate) {
+		this.birthDate = birthDate;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Client other = (Client) obj;
-		return Objects.equals(id, other.id);
+	public void setChildren(Integer children) {
+		this.children = children;
 	}
 
-	
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setIncome(Double income) {
+		this.income = income;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }

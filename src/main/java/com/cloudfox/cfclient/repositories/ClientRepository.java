@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.cloudfox.cfclient.entities.Client;
 
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Long> {}
+public interface ClientRepository extends JpaRepository<Client, Long> {
+}

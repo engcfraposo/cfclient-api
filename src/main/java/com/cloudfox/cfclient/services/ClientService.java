@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +25,27 @@ public class ClientService {
 	@Autowired
 	private ClientRepository repository;
 
+	private void copyDtoToEntity(ClientDTO dto, Client entity) {
+		entity.setName(dto.getName());
+		entity.setCpf(dto.getCpf());
+		entity.setIncome(dto.getIncome());
+		entity.setBirthDate(dto.getBirthDate());
+		entity.setChildren(dto.getChildren());
+	}
+
+	public void delete(Long id) {
+		try {
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("ID not found! " + id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException("Ïntegrity violation");
+		}
+	}
+
 	@Transactional(readOnly = true)
-	public Page<ClientDTO> findAllPaged(PageRequest pageRequest) {
-		Page<Client> list = repository.findAll(pageRequest);
+	public Page<ClientDTO> findAllPaged(Pageable pageable) {
+		Page<Client> list = repository.findAll(pageable);
 		return list.map(entity -> new ClientDTO(entity));
 	}
 
@@ -55,23 +74,5 @@ public class ClientService {
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("ID not found! " + id);
 		}
-	}
-
-	public void delete(Long id) {
-		try {
-			repository.deleteById(id);
-		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("ID not found! " + id);
-		} catch (DataIntegrityViolationException e) {
-			throw new DatabaseException("Ïntegrity violation");
-		}
-	}
-
-	private void copyDtoToEntity(ClientDTO dto, Client entity) {
-		entity.setName(dto.getName());
-		entity.setCpf(dto.getCpf());
-		entity.setIncome(dto.getIncome());
-		entity.setBirthDate(dto.getBirthDate());
-		entity.setChildren(dto.getChildren());
 	}
 }
